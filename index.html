@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        #particles {
+            background: linear-gradient(192deg, #000E6E 0%, #AC6438 96%);
+        }
+    </style>
+    <canvas id="particles" width="750" height="750px"></canvas>
+    <script>
+
+        const particles = []
+        const particleNum = 20
+        let canvas = document.querySelector('#particles')
+        let ctx = canvas.getContext('2d')
+
+        function ParticleStyle(x, y, scale, color, xSpeed, ySpeed) {
+            this.position = {
+                x: x,
+                y: y
+            }
+            this.scale = scale
+            this.color = color
+            this.xSpeed = xSpeed
+            this.ySpeed = ySpeed
+        }
+
+        ParticleStyle.prototype.drawparticle = function () {
+            ctx.beginPath()
+            ctx.arc(this.position.x, this.position.y, this.scale, 0, Math.PI * 2, false)
+            ctx.fillStyle = this.color
+            ctx.fill()
+        }
+        for (let i = 1; i < particleNum; i++) {
+            particles[i] = new ParticleStyle(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height), Math.floor(Math.random() * 5), '#fff', Math.floor(Math.random() * 3 - 1), Math.floor(Math.random() * 3 - 1))
+        }
+        console.log(particles)
+        loop()
+        function loop() {
+            window.requestAnimationFrame(loop);
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+            for (let i = 1; i < particleNum; i++) {
+                particles[i].position.x += particles[i].xSpeed;
+                particles[i].position.y += particles[i].ySpeed;
+                particles[i].drawparticle();
+                if (particles[i].position.x > canvas.width) {
+                    particles[i].position.x = 0
+                }
+                if (particles[i].position.y > canvas.height){
+                    particles[i].position.y = 0
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>
